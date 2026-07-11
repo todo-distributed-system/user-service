@@ -6,6 +6,7 @@ import com.app.todo.user.service.CreateUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class UserController {
     private final CreateUserService createUserService;
 
     @PostMapping("/create")
-    public ResponseEntity<CreateUserResponse> createUserProfile(CreateUserRequest createUserRequest) {
+    public ResponseEntity<CreateUserResponse> createUserProfile(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(createUserService.createUser(createUserRequest));
     }
 
