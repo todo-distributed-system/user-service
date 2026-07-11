@@ -1,26 +1,24 @@
 package com.app.todo.user.controller;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.app.todo.user.request.CreateUserRequest;
+import com.app.todo.user.response.CreateUserResponse;
+import com.app.todo.user.service.CreateUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/app/todo/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Data
-    @Builder
-    private static class Message {
-        private String message;
-    }
+    private final CreateUserService createUserService;
 
-    @GetMapping("/greeting")
-    public Message greet() {
-        return Message.builder()
-                .message("Hii, hello, welcome")
-                .build();
+    @PostMapping("/create")
+    public ResponseEntity<CreateUserResponse> createUserProfile(CreateUserRequest createUserRequest) {
+        return ResponseEntity.ok(createUserService.createUser(createUserRequest));
     }
 
 }
