@@ -5,10 +5,9 @@ import com.app.todo.user.response.CreateUserResponse;
 import com.app.todo.user.service.CreateUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/app/todo/user")
@@ -20,6 +19,11 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<CreateUserResponse> createUserProfile(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(createUserService.createUser(createUserRequest));
+    }
+
+    @GetMapping("/greet")
+    public Map<String, String> greet() {
+        return Map.of("message", "working on docker");
     }
 
 }
