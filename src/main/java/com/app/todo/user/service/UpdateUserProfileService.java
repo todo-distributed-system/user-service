@@ -2,25 +2,29 @@ package com.app.todo.user.service;
 
 import com.app.todo.user.entity.UserProfile;
 import com.app.todo.user.repository.UserProfileRepository;
+import com.app.todo.user.request.UserProfileUpdateRequest;
 import com.app.todo.user.response.UserProfileDto;
 import com.app.todo.user.utility.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
-public class GetUserProfileService {
+public class UpdateUserProfileService {
 
-    private final CurrentUser currentUser;
     private final UserProfileRepository userProfileRepository;
+    private final CurrentUser currentUser;
 
-    public UserProfileDto getUserProfile() {
+    public UserProfileDto updateUserProfile(UserProfileUpdateRequest userProfileUpdateRequest) {
+        UserProfile userProfile = userProfileRepository.findById(currentUser.getUserId()).orElseThrow();
 
-        UUID userId = currentUser.getUserId();
 
-        UserProfile userProfile = userProfileRepository.findById(userId).orElseThrow();
+        userProfile.setFirstName(userProfileUpdateRequest.getFirstName());
+        userProfile.setLastName(userProfileUpdateRequest.getLastName());
+        userProfile.setDateOfBirth(userProfileUpdateRequest.getDateOfBirth());
+        userProfile.setPhone(userProfileUpdateRequest.getPhone());
+
+        userProfile = userProfileRepository.save(userProfile);
 
         return UserProfileDto.builder()
                 .email(userProfile.getEmail())
@@ -32,5 +36,4 @@ public class GetUserProfileService {
                 .updatedAt(userProfile.getUpdatedAt())
                 .build();
     }
-
 }
