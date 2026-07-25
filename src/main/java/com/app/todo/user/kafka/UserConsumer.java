@@ -18,8 +18,6 @@ public class UserConsumer {
             groupId = "user-group")
     public void consume(UserCreationEvent userEvent) {
 
-        System.out.println("+++++++++++ " + userEvent);
-
         UserProfile userProfile = UserProfile.builder()
                 .userId(userEvent.getUserId())
                 .email(userEvent.getEmail())

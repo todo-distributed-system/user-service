@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.UUID;
 
 @Component
 public class JwtTokenValidator {
@@ -31,12 +32,14 @@ public class JwtTokenValidator {
         }
     }
 
-    public String getUserId(String token) {
-        return Jwts.parser()
+    public UUID getUserId(String token) {
+        String userId = Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("userId", String.class);
+
+        return UUID.fromString(userId);
     }
 }
